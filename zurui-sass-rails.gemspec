@@ -15,7 +15,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = ZuruiSassRails::VERSION
 
-  gem.add_dependency "railties", ">= 3.1"
+  gem.add_dependency "railties", ">= 4.0"
 
   # get an array of submodule dirs by executing 'pwd' inside each submodule
   `git submodule --quiet foreach pwd`.split($\).each do |submodule_path|
