@@ -18,26 +18,33 @@ Gem::Specification.new do |gem|
   gem.add_dependency "railties", ">= 4.0"
 
   # get an array of submodule dirs by executing 'pwd' inside each submodule
+  puts "[INFO] start submodule"
   `git submodule --quiet foreach pwd`.split($\).each do |submodule_path|
+    puts "[INFO] submodule_path: #{submodule_path}"
     # for each submodule, change working directory to that submodule
     Dir.chdir(submodule_path) do
 
       # issue git ls-files in submodule's directory
       submodule_files = `git ls-files`.split($\)
+      puts "[INFO] submodule_files: #{submodule_files}"
 
       # prepend the submodule path to create absolute file paths
       submodule_files_fullpaths = submodule_files.map do |filename|
         "#{submodule_path}/#{filename}"
       end
+      puts "[INFO] submodule_files_fullpaths: #{submodule_files_fullpaths}"
 
       # remove leading path parts to get paths relative to the gem's root dir
       # (this assumes, that the gemspec resides in the gem's root dir)
       submodule_files_paths = submodule_files_fullpaths.map do |filename|
         filename.gsub "#{File.dirname(__FILE__)}/", ""
       end
+      puts "[INFO] submodule_files_paths: #{submodule_files_paths}"
 
       # add relative paths to gem.files
       gem.files += submodule_files_paths
+      puts "[INFO] gem.files: #{gem.files}"
     end
   end
+  puts "[INFO] end submodule"
 end
